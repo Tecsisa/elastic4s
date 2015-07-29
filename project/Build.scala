@@ -4,7 +4,7 @@ import sbt.Keys._
 object Build extends Build {
 
   val org = "com.sksamuel.elastic4s"
-  val appVersion = "1.7.0"
+  val appVersion = "1.7.0-INTERNAL-1"
 
   val ScalaVersion = "2.11.7"
   val ScalatestVersion = "2.2.5"
@@ -38,14 +38,6 @@ object Build extends Build {
       "org.codehaus.groovy" % "groovy" % GroovyVersion % "test"
 
     ),
-    publishTo <<= version {
-      (v: String) =>
-        val nexus = "https://oss.sonatype.org/"
-        if (v.trim.endsWith("SNAPSHOT"))
-          Some("snapshots" at nexus + "content/repositories/snapshots")
-        else
-          Some("releases" at nexus + "service/local/staging/deploy/maven2")
-    },
     pomExtra := {
       <url>https://github.com/sksamuel/elastic4s</url>
         <licenses>
