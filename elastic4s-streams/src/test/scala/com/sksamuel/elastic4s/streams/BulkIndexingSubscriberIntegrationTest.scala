@@ -30,7 +30,7 @@ class BulkIndexingSubscriberIntegrationTest extends WordSpec with ElasticSugar w
     "index all received data" in {
 
       val completionLatch = new CountDownLatch(1)
-      val subscriber = client.subscriber[Ship](10, 2, completionFn = () => completionLatch.countDown)
+      val subscriber = client.subscriber[Ship](5, 2, completionFn = () => completionLatch.countDown)
       ShipPublisher.subscribe(subscriber)
       completionLatch.await(5, TimeUnit.SECONDS)
 
@@ -43,7 +43,7 @@ class BulkIndexingSubscriberIntegrationTest extends WordSpec with ElasticSugar w
 
       val completionLatch = new CountDownLatch(1)
       // The short interval is just for the sake of test execution time, it's not a recommendation
-      val subscriber = client.subscriber[Ship](8, 2, flushInterval = Some(500.millis))
+      val subscriber = client.subscriber[Ship](4, 2, flushInterval = Some(500.millis))
       ShipEndlessPublisher.subscribe(subscriber)
 
       blockUntilCount(ships.length, "bulkindexsubint")

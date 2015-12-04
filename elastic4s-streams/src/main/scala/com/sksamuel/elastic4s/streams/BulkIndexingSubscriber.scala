@@ -165,7 +165,7 @@ class BulkActor[T](client: ElasticClient,
   private def index(): Unit = {
     pending = pending + buffer.size
     def send(req: BulkDefinition): Unit = {
-      client.execute(req).onComplete {
+      client.execute(req.requests).onComplete {
         case Failure(e) => self ! e
         case Success(resp) if resp.hasFailures => send(req)
         case Success(resp) => self ! resp
